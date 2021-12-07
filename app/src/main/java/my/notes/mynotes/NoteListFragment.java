@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class NoteListFragment extends Fragment {
+
 
     public static NoteListFragment newInstance() {
         return new NoteListFragment();

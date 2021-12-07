@@ -12,6 +12,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initView();
+    }
+
+    private void initView() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.note_list_container, NoteListFragment.newInstance())
@@ -21,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.current_note_container, CurrentNoteFragment.newInstance())
+                    .replace(R.id.current_note_container, CurrentNoteFragment.newInstance(new Note("test title", "test content")))
                     .commit();
         }
     }
