@@ -10,12 +10,13 @@ import java.util.GregorianCalendar;
 
 public class Note implements Parcelable {
 
-    static private int noteIndex;
+    private int noteIndex;
     private String name;
     private String noteContent;
     private Calendar creationDate = new GregorianCalendar();
 
-    public Note(String name, String noteContent) {
+    public Note(int noteIndex, String name, String noteContent) {
+        this.noteIndex = noteIndex;
         this.name = name;
         this.noteContent = noteContent;
         this.creationDate.setTimeInMillis(System.currentTimeMillis());

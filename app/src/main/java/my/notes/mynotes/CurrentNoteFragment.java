@@ -1,5 +1,6 @@
 package my.notes.mynotes;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,8 @@ public class CurrentNoteFragment extends Fragment {
         TextView noteTitle = view.findViewById(R.id.note_title);
         TextView noteDate = view.findViewById(R.id.note_date);
         TextView noteContent = view.findViewById(R.id.note_content);
+
+        String[] noteContents = getResources().getStringArray(R.array.noteContents);
         noteTitle.setText(this.note.getName());
         noteDate.setText(this.note.getFormattedCreationDate());
         noteContent.setText(this.note.getNoteContent());

@@ -16,6 +16,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
+        String[] noteNames = getResources().getStringArray(R.array.noteNames);
+        String[] noteContents = getResources().getStringArray(R.array.noteContents);
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.note_list_container, NoteListFragment.newInstance())
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.current_note_container, CurrentNoteFragment.newInstance(new Note("test title", "test content")))
+                    .replace(R.id.current_note_container, CurrentNoteFragment.newInstance(new Note(0, noteNames[0], noteContents[0])))
                     .commit();
         }
     }
