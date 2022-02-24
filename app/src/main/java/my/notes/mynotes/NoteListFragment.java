@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
-public class NoteListFragment extends Fragment {
+public class NoteListFragment extends Fragment implements Constants {
 
     Note currentNote;
     boolean isLandScape;
@@ -38,18 +38,24 @@ public class NoteListFragment extends Fragment {
             String content = noteContents[i];
 
             int finalI = i;
-            noteList.setOnClickListener(getOnClickListener(name, content, finalI));
+            noteList.setOnClickListener(getOnClickListener(name, content, finalI, savedInstanceState));
         }
 
         return view;
     }
 
     @NonNull
-    private View.OnClickListener getOnClickListener(String name, String content, int finalI) {
+    private View.OnClickListener getOnClickListener(String name, String content, int finalI, Bundle savedInstanceState) {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentNote = new Note(finalI, name, content);
+
+//                if (getArguments() != null) {
+//                    currentNote = getArguments().getParcelable(CNOTE);
+//                } else {
+                    currentNote = new Note(finalI, name, content);
+//                }
+
                 isLandScape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
                 showCurrentNote();
@@ -82,7 +88,6 @@ public class NoteListFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(currentNote);
+//        outState.putParcelable(CNOTE, currentNote);
     }
-
 }

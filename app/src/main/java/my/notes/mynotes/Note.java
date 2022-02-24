@@ -13,13 +13,16 @@ public class Note implements Parcelable {
     private int noteIndex;
     private String name;
     private String noteContent;
+    private Calendar currentDate = new GregorianCalendar();
     private Calendar creationDate = new GregorianCalendar();
+    DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
     public Note(int noteIndex, String name, String noteContent) {
         this.noteIndex = noteIndex;
         this.name = name;
         this.noteContent = noteContent;
-        this.creationDate.setTimeInMillis(System.currentTimeMillis());
+        this.currentDate.setTimeInMillis(System.currentTimeMillis());
+        this.creationDate = getCurrentDate();
     }
 
     public int getNoteIndex() {
@@ -46,18 +49,30 @@ public class Note implements Parcelable {
         this.noteContent = noteContent;
     }
 
+    public void setCreationDate(Calendar creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setCreationDate(int year, int monthOfYear, int dayOfMonth) {
+        this.creationDate.set(year, monthOfYear, dayOfMonth);
+    }
+
     public Calendar getCreationDate() {
         return creationDate;
     }
 
     public String getFormattedCreationDate() {
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         return dateFormat.format(creationDate.getTime());
     }
 
-    public void setCreationDate(Calendar creationDate) {
-        this.creationDate = creationDate;
+    public Calendar getCurrentDate() {
+        return currentDate;
     }
+
+    public String getFormattedCurrentDate() {
+        return dateFormat.format(currentDate.getTime());
+    }
+
 
     @Override
     public int describeContents() {
