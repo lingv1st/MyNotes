@@ -8,25 +8,54 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
 public class NoteListFragment extends Fragment implements Constants {
 
-    Note currentNote;
+    private Note currentNote;
     boolean isLandScape;
 
     public static NoteListFragment newInstance() {
+        MainActivity.makeToast("NoteListFragment - newInstance()");
         return new NoteListFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_note_list, container, false);
+        MainActivity.makeToast("NoteListFragment - onCreateView");
+        return inflater.inflate(R.layout.fragment_note_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        MainActivity.makeToast("NoteListFragment - onViewCreated");
+        super.onViewCreated(view, savedInstanceState);
+
+        if (savedInstanceState == null) {
+            currentNote = new Note(0);
+        } else {
+            currentNote = savedInstanceState.getParcelable(CNOTE);
+        }
+
+        if (currentNote != null) {
+            MainActivity.makeToast("currentNote index = " + String.valueOf(currentNote.getNoteIndex()));
+        }
+
+        isLandScape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        if (isLandScape) {
+            showCurrentNoteLand();
+        }
+
+        initView(view, savedInstanceState);
+    }
+
+    private void initView(View view, Bundle savedInstanceState) {
         LinearLayout linearLayout = (LinearLayout) view;
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         String[] noteNames = getResources().getStringArray(R.array.noteNames);
-        String[] noteContents = getResources().getStringArray(R.array.noteContents);
+//        String[] noteContents = getResources().getStringArray(R.array.noteContents);
 
         for (int i = 0; i < noteNames.length; i++) {
             String name = noteNames[i];
@@ -34,60 +63,56 @@ public class NoteListFragment extends Fragment implements Constants {
             noteList.setText(name);
             noteList.setTextSize(getResources().getDimension(R.dimen.list_text_size));
             linearLayout.addView(noteList);
-
-            String content = noteContents[i];
+//            String content = noteContents[i];
 
             int finalI = i;
-            noteList.setOnClickListener(getOnClickListener(name, content, finalI, savedInstanceState));
+            noteList.setOnClickListener(getOnClickListener(finalI, savedInstanceState));
         }
-
-        return view;
     }
 
     @NonNull
-    private View.OnClickListener getOnClickListener(String name, String content, int finalI, Bundle savedInstanceState) {
+    private View.OnClickListener getOnClickListener(int finalI, Bundle savedInstanceState) {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-//                if (getArguments() != null) {
-//                    currentNote = getArguments().getParcelable(CNOTE);
-//                } else {
-                    currentNote = new Note(finalI, name, content);
-//                }
-
-                isLandScape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-
-                showCurrentNote();
+                currentNote = new Note(finalI);//, name, content);
+                if (isLandScape) {
+                    showCurrentNoteLand();
+                } else {
+                    showCurrentNotePort();
+                }
             }
         };
         return onClickListener;
     }
 
-    private void showCurrentNote() {
-        if (isLandScape) {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.current_note_container, CurrentNoteFragment.newInstance(currentNote))
-                    .commit();
-        } else {
-            showCurrentNotePort();
-        }
+    // Отобразить текущую заметку в ландшафтной ориентации
+    private void showCurrentNoteLand() {
+        requireActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.current_note_container, NoteFragment.newInstance(currentNote))
+                .commit();
     }
 
+    // Отобразить текущую заметку в портретной ориентации
     private void showCurrentNotePort() {
         requireActivity()
                 .getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.note_list_container, CurrentNoteFragment.newInstance(currentNote))
+                .replace(R.id.note_list_container, NoteFragment.newInstance(currentNote))
                 .addToBackStack("")
                 .commit();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        MainActivity.makeToast("NoteListFragment - onSaveInstanceState");
+        if (currentNote != null) {
+            MainActivity.makeToast("currentNote index = " + String.valueOf(currentNote.getNoteIndex()));
+        }
         super.onSaveInstanceState(outState);
-//        outState.putParcelable(CNOTE, currentNote);
+        outState.putParcelable(CNOTE, currentNote);
     }
 }

@@ -11,19 +11,37 @@ import java.util.GregorianCalendar;
 public class Note implements Parcelable {
 
     private int noteIndex;
-    private String name;
-    private String noteContent;
+//    private String name;
+//    private String noteContent;
     private Calendar currentDate = new GregorianCalendar();
     private Calendar creationDate = new GregorianCalendar();
     DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-    public Note(int noteIndex, String name, String noteContent) {
+    public Note(int noteIndex) {//, String name, String noteContent) {
         this.noteIndex = noteIndex;
-        this.name = name;
-        this.noteContent = noteContent;
+//        this.name = name;
+//        this.noteContent = noteContent;
         this.currentDate.setTimeInMillis(System.currentTimeMillis());
         this.creationDate = getCurrentDate();
     }
+
+    protected Note(Parcel in) {
+        noteIndex = in.readInt();
+//        name = in.readString();
+//        noteContent = in.readString();
+    }
+
+    public static final Creator<Note> CREATOR = new Creator<Note>() {
+        @Override
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
+        }
+
+        @Override
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
 
     public int getNoteIndex() {
         return noteIndex;
@@ -33,21 +51,21 @@ public class Note implements Parcelable {
         this.noteIndex = noteIndex;
     }
 
-    public String getName() {
-        return name;
-    }
+//    public String getName() {
+//        return name;
+//    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNoteContent() {
-        return noteContent;
-    }
-
-    public void setNoteContent(String noteContent) {
-        this.noteContent = noteContent;
-    }
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getNoteContent() {
+//        return noteContent;
+//    }
+//
+//    public void setNoteContent(String noteContent) {
+//        this.noteContent = noteContent;
+//    }
 
     public void setCreationDate(Calendar creationDate) {
         this.creationDate = creationDate;
@@ -81,6 +99,8 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeInt(noteIndex);
+//        parcel.writeString(name);
+//        parcel.writeString(noteContent);
     }
 }

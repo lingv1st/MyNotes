@@ -6,7 +6,7 @@ import android.view.View;
 public interface Constants {
 
     String CNOTE = "CNOTE";
-
+    String TAG = "TAG";
 
 //    Note currentNote = null;
 
