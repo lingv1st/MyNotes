@@ -1,16 +1,12 @@
 package my.notes.mynotes;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 
 public class MainActivity extends AppCompatActivity implements Constants {
-
-    //Note currentNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements Constants {
     protected void onResume() {
         super.onResume();
         //TODO Возможно нужно вызвать NoteListFragment.newInstance()? или initView()?
-        Fragment backStackFragment = (Fragment)getSupportFragmentManager().findFragmentById(R.id.note_list_container);
-        if(backStackFragment != null && backStackFragment instanceof NoteFragment) {
+        Fragment backStackFragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.note_list_container);
+        if (backStackFragment != null && backStackFragment instanceof NoteFragment) {
             onBackPressed();
         }
     }

@@ -59,7 +59,7 @@ public class NoteListFragment extends Fragment implements Constants {
             noteList.setTextSize(getResources().getDimension(R.dimen.list_text_size));
             linearLayout.addView(noteList);
 
-            int finalI = i;
+            final int finalI = i;
             noteList.setOnClickListener(getOnClickListener(finalI));
         }
     }
@@ -70,7 +70,7 @@ public class NoteListFragment extends Fragment implements Constants {
             @Override
             public void onClick(View view) {
 
-                currentNote = new Note(finalI);//, name, content);
+                currentNote = new Note(finalI);
                 if (isLandScape) {
                     showCurrentNoteLand();
                 } else {

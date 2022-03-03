@@ -30,9 +30,9 @@
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginEnd="@dimen/normal_margin"
         android:layout_weight="0.1"
+        android:calendarViewShown="false"
         android:gravity="center"
-        android:textSize="@dimen/normal_text_size"
-        android:calendarViewShown="false"/>
+        android:textSize="@dimen/normal_text_size" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/note_content"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/normal_margin"
         android:layout_weight="1"
-        android:gravity="top|left"
+        android:gravity="top|start"
         android:textSize="@dimen/normal_text_size" />
 
 </LinearLayout>
