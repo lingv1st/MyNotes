@@ -18,19 +18,19 @@ public class NoteListFragment extends Fragment implements Constants {
     boolean isLandScape;
 
     public static NoteListFragment newInstance() {
-        MainActivity.makeToast("NoteListFragment - newInstance()");
+//        MainActivity.makeToast("NoteListFragment - newInstance()");
         return new NoteListFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        MainActivity.makeToast("NoteListFragment - onCreateView");
+//        MainActivity.makeToast("NoteListFragment - onCreateView");
         return inflater.inflate(R.layout.fragment_note_list, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        MainActivity.makeToast("NoteListFragment - onViewCreated");
+//        MainActivity.makeToast("NoteListFragment - onViewCreated");
         super.onViewCreated(view, savedInstanceState);
 
         if (savedInstanceState == null) {
@@ -39,23 +39,18 @@ public class NoteListFragment extends Fragment implements Constants {
             currentNote = savedInstanceState.getParcelable(CNOTE);
         }
 
-        if (currentNote != null) {
-            MainActivity.makeToast("currentNote index = " + String.valueOf(currentNote.getNoteIndex()));
-        }
-
         isLandScape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         if (isLandScape) {
             showCurrentNoteLand();
         }
 
-        initView(view, savedInstanceState);
+        initView(view);
     }
 
-    private void initView(View view, Bundle savedInstanceState) {
+    private void initView(View view) {
         LinearLayout linearLayout = (LinearLayout) view;
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         String[] noteNames = getResources().getStringArray(R.array.noteNames);
-//        String[] noteContents = getResources().getStringArray(R.array.noteContents);
 
         for (int i = 0; i < noteNames.length; i++) {
             String name = noteNames[i];
@@ -63,15 +58,14 @@ public class NoteListFragment extends Fragment implements Constants {
             noteList.setText(name);
             noteList.setTextSize(getResources().getDimension(R.dimen.list_text_size));
             linearLayout.addView(noteList);
-//            String content = noteContents[i];
 
             int finalI = i;
-            noteList.setOnClickListener(getOnClickListener(finalI, savedInstanceState));
+            noteList.setOnClickListener(getOnClickListener(finalI));
         }
     }
 
     @NonNull
-    private View.OnClickListener getOnClickListener(int finalI, Bundle savedInstanceState) {
+    private View.OnClickListener getOnClickListener(int finalI) {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,10 +102,7 @@ public class NoteListFragment extends Fragment implements Constants {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        MainActivity.makeToast("NoteListFragment - onSaveInstanceState");
-        if (currentNote != null) {
-            MainActivity.makeToast("currentNote index = " + String.valueOf(currentNote.getNoteIndex()));
-        }
+//        MainActivity.makeToast("NoteListFragment - onSaveInstanceState");
         super.onSaveInstanceState(outState);
         outState.putParcelable(CNOTE, currentNote);
     }

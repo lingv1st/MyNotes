@@ -29,31 +29,18 @@ public class NoteFragment extends Fragment implements Constants {
         return fragment;
     }
 
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        MainActivity.makeToast("NoteFragment - onCreateView");
+//        MainActivity.makeToast("NoteFragment - onCreateView");
         return inflater.inflate(R.layout.fragment_current_note, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        MainActivity.makeToast("NoteFragment - onViewCreated");
+//        MainActivity.makeToast("NoteFragment - onViewCreated");
         super.onViewCreated(view, savedInstanceState);
 
-//        if (getArguments() == null) {
-//            note = new Note(0);//, noteNames[0], noteContents[0]);
-//        }
-//        else {
-            note = getArguments().getParcelable(ARG_NOTE);
-        if (note != null) {
-            MainActivity.makeToast("note index = " + String.valueOf(note.getNoteIndex()));
-        }
-//        }
+        note = getArguments().getParcelable(ARG_NOTE);
 
         initView(view);
         fillTheNote();
@@ -75,17 +62,11 @@ public class NoteFragment extends Fragment implements Constants {
 
         datePicker.init(2022, 02, 24,
                 new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                note.setCreationDate(year, monthOfYear, dayOfMonth);
-                noteDate.setText(note.getFormattedCreationDate());
-            }
-        });
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        MainActivity.makeToast("NoteFragment - onSaveInstanceState");
-        super.onSaveInstanceState(outState);
+                    @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        note.setCreationDate(year, monthOfYear, dayOfMonth);
+                        noteDate.setText(note.getFormattedCreationDate());
+                    }
+                });
     }
 }

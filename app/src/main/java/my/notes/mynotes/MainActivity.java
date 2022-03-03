@@ -2,6 +2,7 @@ package my.notes.mynotes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,23 +14,16 @@ public class MainActivity extends AppCompatActivity implements Constants {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        makeToast("MainActivity - onCreate");
+//        makeToast("MainActivity - onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initView(savedInstanceState);
+        if (savedInstanceState == null) {
+            initView();
+        }
     }
 
-    private void initView(Bundle savedInstanceState) {
-//        if (savedInstanceState == null) {
-//            MainActivity.makeToast("MainActivity - savedInstanceState == null");
-//            String[] noteNames = getResources().getStringArray(R.array.noteNames);
-//            String[] noteContents = getResources().getStringArray(R.array.noteContents);
-//            currentNote = new Note(0, noteNames[0], noteContents[0]);
-//        }
-//        else {
-//            currentNote = savedInstanceState.getParcelable(CNOTE);
-//        }
+    private void initView() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.note_list_container, NoteListFragment.newInstance())
@@ -37,20 +31,13 @@ public class MainActivity extends AppCompatActivity implements Constants {
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        makeToast("MainActivity - onSaveInstanceState");
-        super.onSaveInstanceState(outState);
-//        outState.putParcelable(CNOTE, currentNote);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        makeToast("MainActivity - onRestoreInstanceState");
-        super.onRestoreInstanceState(savedInstanceState);
-
-//        if (savedInstanceState != null) {
-//            currentNote = savedInstanceState.getParcelable(CNOTE);
-//        }
+    protected void onResume() {
+        super.onResume();
+        //TODO Возможно нужно вызвать NoteListFragment.newInstance()? или initView()?
+        Fragment backStackFragment = (Fragment)getSupportFragmentManager().findFragmentById(R.id.note_list_container);
+        if(backStackFragment != null && backStackFragment instanceof NoteFragment) {
+            onBackPressed();
+        }
     }
 
     static void makeToast(String message) {
